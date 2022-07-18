@@ -1,42 +1,48 @@
-import { Model,Optional,InferCreationAttributes, DataTypes } from 'sequelize';
-import { db } from '../database/database';
-import {IUsersModel} from "./types/users";
+import {Model, DataTypes} from 'sequelize';
+import bcrypt from 'bcryptjs';
+import {db} from '../database/database';
+import {IUsersModel, IUser} from '../types/users';
 
-type UserCreationAttributes = Optional<IUsersModel, 'id'>;
 
-class Users extends Model<IUsersModel, UserCreationAttributes> {
-    declare id: number;
+class Users extends Model<IUsersModel, IUser> {
+    declare id: string;
+
+    declare password: string;
+
     declare createdAt: Date;
+
     declare updatedAt: Date;
 }
-Users.init({
+
+Users.init(
+    {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.UUID,
             primaryKey: true,
-            autoIncrement: true,
+            defaultValue: DataTypes.UUIDV4,
             unique: true
         },
         firstname: {
             type: DataTypes.STRING,
-            validate: { notEmpty: true }
+            validate: {notEmpty: true}
         },
         lastname: {
             type: DataTypes.STRING,
-            validate: { notEmpty: true }
+            validate: {notEmpty: true}
         },
         username: {
             type: DataTypes.STRING,
-            validate: { notEmpty: true },
+            validate: {notEmpty: true},
             unique: true
         },
         email: {
             type: DataTypes.STRING,
-            validate: { isEmail: true, notEmpty: true },
+            validate: {isEmail: true, notEmpty: true},
             unique: true
         },
         password: {
             type: DataTypes.STRING,
-            validate: { notEmpty: true }
+            validate: {notEmpty: true}
         },
         picture: {
             type: DataTypes.STRING,
@@ -47,27 +53,38 @@ Users.init({
         },
         gender: {
             type: DataTypes.STRING,
-            validate: { notEmpty: true }
+            validate: {notEmpty: true}
         },
         bYear: {
             type: DataTypes.INTEGER,
-            validate: { notEmpty: true }
+            validate: {notEmpty: true}
         },
         bMonth: {
             type: DataTypes.INTEGER,
-            validate: { notEmpty: true }
+            validate: {notEmpty: true}
         },
         bDay: {
             type: DataTypes.INTEGER,
-            validate: { notEmpty: true }
+            validate: {notEmpty: true}
         },
         verified: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
-    createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE,
+        createdAt: DataTypes.DATE,
+        updatedAt: DataTypes.DATE
+    },
+    {
+        sequelize: db,
+        freezeTableName: true,
+        modelName: 'Users',
+        hooks: {
+            beforeValidate: async (user) => {
+                if (!user.password) return;
+                user.password = await bcrypt.hash(process.env.SECRET_KEY as string, 10);
+            }
+        }
+    }
+);
 
-}, {  sequelize: db, freezeTableName: true, modelName: 'Users' });
-
-export default  Users;
+export default Users;
