@@ -30,11 +30,6 @@ Users.init(
             type: DataTypes.STRING,
             validate: {notEmpty: true}
         },
-        username: {
-            type: DataTypes.STRING,
-            validate: {notEmpty: true},
-            unique: true
-        },
         email: {
             type: DataTypes.STRING,
             validate: {isEmail: true, notEmpty: true},
@@ -83,6 +78,12 @@ Users.init(
                 if (!user.password) return;
                 user.password = await bcrypt.hash(process.env.SECRET_KEY as string, 10);
             }
+        },
+        defaultScope: {
+            attributes: { exclude: ['password'] }
+        },
+        scopes: {
+            withPassword: { attributes: { exclude: [] } }
         }
     }
 );
