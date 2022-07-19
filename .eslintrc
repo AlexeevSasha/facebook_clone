@@ -38,6 +38,8 @@
     "no-param-reassign": 0,
     "import/no-unresolved": "off",
     "import/extensions": [ "error", "ignorePackages", { "": "never" } ],
-    "@typescript-eslint/ban-types": ["error", { "extendDefaults": true, "types": { "{}": false } }]
+    "@typescript-eslint/ban-types": ["error", { "extendDefaults": true, "types": { "{}": false } }],
+    "no-useless-constructor": 0,
+    "max-classes-per-file": "off"
   }
 }
