@@ -4,6 +4,7 @@ import { json } from 'body-parser';
 import cors from 'cors';
 import { db } from './database/database';
 import userRouter from './routes/userRouter';
+import { errorHandlerMiddleware } from './middlwares/errors';
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -20,6 +21,8 @@ app.use(cors());
 app.use(json());
 
 app.use('/api/auth', userRouter);
+
+app.use(errorHandlerMiddleware);
 
 db.sync()
   .then(() => {
