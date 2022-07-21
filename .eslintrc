@@ -40,6 +40,8 @@
     "import/extensions": [ "error", "ignorePackages", { "": "never" } ],
     "@typescript-eslint/ban-types": ["error", { "extendDefaults": true, "types": { "{}": false } }],
     "no-useless-constructor": 0,
-    "max-classes-per-file": "off"
+    "max-classes-per-file": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "lines-between-class-members": "off"
   }
 }
