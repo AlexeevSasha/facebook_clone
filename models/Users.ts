@@ -6,11 +6,10 @@ import {IUsersModel, IUser} from '../types/users';
 
 class Users extends Model<IUsersModel, IUser> {
     declare id: string;
-
+    declare firstname: string;
+    declare email: string;
     declare password: string;
-
     declare createdAt: Date;
-
     declare updatedAt: Date;
 }
 
