@@ -6,12 +6,7 @@ interface CustomError extends Error {
   statusCode?: number;
 }
 
-export const errorHandlerMiddleware = (
-  error: CustomError,
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const errorHandlerMiddleware = (error: CustomError, req: Request, res: Response, next: NextFunction) => {
   const status = error.statusCode || StatusCodes.BAD_REQUEST;
   const msg = error.message || 'Something went wrong, try again later';
 
