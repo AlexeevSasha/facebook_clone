@@ -11,5 +11,6 @@
     "strict": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
+    "jsx": "react"
   }
 }
